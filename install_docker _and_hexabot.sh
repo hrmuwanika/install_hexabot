@@ -3,6 +3,13 @@
 # Update package list
 sudo apt update && sudo apt upgrade -y
 
+# Install UFW 
+sudo apt install -y ufw
+sudo ufw allow 22/tcp
+sudo ufw allow 8080/tcp
+sudo ufw enable
+sudo ufw reload
+
 # Install dependencies
 sudo apt install -y apt-transport-https ca-certificates git curl software-properties-common
 

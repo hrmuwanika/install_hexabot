@@ -36,11 +36,13 @@ docker --version
 docker-compose --version
 
 # Install NVM 20
-curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
+sudo curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
 source ~/.profile
 nvm install 20
+node --version
 
 # Install Hexabot
+cd /opt
 git clone https://github.com/hexastack/hexabot.git
 npm i -g hexabot-cli
 
@@ -48,4 +50,8 @@ cd hexabot/
 npm install
 
 hexabot init
-hexabot dev
+hexabot dev --services ollama
+
+
+
+

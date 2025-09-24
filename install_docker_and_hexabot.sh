@@ -65,12 +65,16 @@ sudo cat <<EOF > /etc/systemd/system/hexabot.service
 [Unit]
 Description=Hexabot Docker Container
 Requires=docker.service
-After=docker.service
+After=network.target docker.service
 
 [Service]
+Type=simple
 Restart=always
+RestartSec=10
+WorkingDirectory=/opt/my-chatbot
 ExecStart=/usr/bin/docker start -a hexabot
 ExecStop=/usr/bin/docker stop -t 2 hexabot
+TimeoutStartSec=300
 
 [Install]
 WantedBy=multi-user.target

@@ -70,8 +70,8 @@ After=docker.service
 Type=oneshot
 Restart=always
 WorkingDirectory=/opt/Hexabot
-ExecStart=/usr/local/bin/docker-compose -f /opt/hexabot/docker/docker-compose.yml -f /opt/Hexabot/docker/docker-compose.ollama.yml up --build -d --remove-orphans
-ExecStop=/usr/local/bin/docker-compose -f /opt/Hexabot/docker/docker-compose.yml -f /opt/Hexabot/docker/docker-compose.ollama.yml down
+ExecStart=/usr/local/bin/docker-compose -f /opt/Hexabot/docker/docker-compose.yml -f /opt/Hexabot/docker/docker-compose.ollama.yml -f /opt/Hexabot/docker/docker-compose.ollama.dev.yml -f /opt/Hexabot/docker/docker-compose.dev.yml up --build -d --remove-orphans
+ExecStop=/usr/local/bin/docker-compose -f /opt/Hexabot/docker/docker-compose.yml -f /opt/Hexabot/docker/docker-compose.ollama.yml -f /opt/Hexabot/docker/docker-compose.ollama.dev.yml -f /opt/Hexabot/docker/docker-compose.dev.yml down
 
 [Install]
 WantedBy=multi-user.target

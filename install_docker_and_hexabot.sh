@@ -68,11 +68,11 @@ Requires=docker.service
 After=docker.service
 
 [Service]
-Type=oneshot
-Restart=always
+Type=simple
+#Restart=always
 WorkingDirectory=/opt/my-chatbot
-ExecStart=/usr/local/bin/docker-compose -f /opt/my-chatbot/docker/docker-compose.yml -f /opt/my-chatbot/docker/docker-compose.ollama.yml -f /opt/my-chatbot/docker/docker-compose.ollama.dev.yml -f /opt/my-chatbot/docker/docker-compose.dev.yml up --build -d --remove-orphans
-ExecStop=/usr/local/bin/docker-compose -f /opt/my-chatbot/docker/docker-compose.yml -f /opt/my-chatbot/docker/docker-compose.ollama.yml -f /opt/my-chatbot/docker/docker-compose.ollama.dev.yml -f /opt/my-chatbot/docker/docker-compose.dev.yml down
+ExecStart=/usr/local/bin/docker-compose -f /opt/my-chatbot/docker/docker-compose.yml -f /opt/my-chatbot/docker/docker-compose.ollama.yml up --build -d
+ExecStop=/usr/local/bin/docker-compose -f /opt/my-chatbot/docker/docker-compose.yml -f /opt/my-chatbot/docker/docker-compose.ollama.yml down
 
 [Install]
 WantedBy=multi-user.target

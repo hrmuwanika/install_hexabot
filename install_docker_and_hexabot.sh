@@ -56,7 +56,7 @@ cd Hexabot
 npm install -g hexabot-cli
 npm install
 npx hexabot init
-npx hexabot start 
+#npx hexabot start 
 npx hexabot dev --services ollama
 
 sudo cat <<EOF > /etc/systemd/system/hexabot.service

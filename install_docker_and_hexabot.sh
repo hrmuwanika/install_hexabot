@@ -51,17 +51,14 @@ node --version
 
 # Install Hexabot
 cd /opt
-#git clone https://github.com/Hexastack/Hexabot.git
-#cd Hexabot
-
 npm install -g hexabot-cli
-hexabot create Hexabot
-cd Hexabot
+hexabot create my-chatbot
+cd my-chatbot
 
 npm install
-npx hexabot init
-#npx hexabot start 
-npx hexabot dev --services ollama
+hexabot init
+
+hexabot dev --services ollama
 
 sudo cat <<EOF > /etc/systemd/system/hexabot.service
 
@@ -73,9 +70,9 @@ After=docker.service
 [Service]
 Type=oneshot
 Restart=always
-WorkingDirectory=/opt/Hexabot
-ExecStart=/usr/local/bin/docker-compose -f /opt/Hexabot/docker/docker-compose.yml -f /opt/Hexabot/docker/docker-compose.ollama.yml -f /opt/Hexabot/docker/docker-compose.ollama.dev.yml -f /opt/Hexabot/docker/docker-compose.dev.yml up --build -d --remove-orphans
-ExecStop=/usr/local/bin/docker-compose -f /opt/Hexabot/docker/docker-compose.yml -f /opt/Hexabot/docker/docker-compose.ollama.yml -f /opt/Hexabot/docker/docker-compose.ollama.dev.yml -f /opt/Hexabot/docker/docker-compose.dev.yml down
+WorkingDirectory=/opt/my-chatbot
+ExecStart=/usr/local/bin/docker-compose -f /opt/my-chatbot/docker/docker-compose.yml -f /opt/my-chatbot/docker/docker-compose.ollama.yml -f /opt/my-chatbot/docker/docker-compose.ollama.dev.yml -f /opt/my-chatbot/docker/docker-compose.dev.yml up --build -d --remove-orphans
+ExecStop=/usr/local/bin/docker-compose -f /opt/my-chatbot/docker/docker-compose.yml -f /opt/my-chatbot/docker/docker-compose.ollama.yml -f /opt/my-chatbot/docker/docker-compose.ollama.dev.yml -f /opt/my-chatbot/docker/docker-compose.dev.yml down
 
 [Install]
 WantedBy=multi-user.target

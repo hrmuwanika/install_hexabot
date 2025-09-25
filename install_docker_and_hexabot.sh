@@ -7,6 +7,7 @@ sudo apt update && sudo apt upgrade -y
 sudo apt install -y ufw
 sudo ufw allow 22/tcp
 sudo ufw allow 8080/tcp
+sudo ufw allow 4000/tcp
 sudo ufw enable
 sudo ufw reload
 
@@ -50,10 +51,13 @@ node --version
 
 # Install Hexabot
 cd /opt
-git clone https://github.com/Hexastack/Hexabot.git
-cd Hexabot
+#git clone https://github.com/Hexastack/Hexabot.git
+#cd Hexabot
 
 npm install -g hexabot-cli
+hexabot create Hexabot
+cd Hexabot
+
 npm install
 npx hexabot init
 #npx hexabot start 

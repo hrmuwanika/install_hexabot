@@ -53,6 +53,7 @@ cd /opt
 git clone https://github.com/Hexastack/Hexabot.git
 cd Hexabot
 
+npm install -g hexabot-cli
 npm install
 npx hexabot init
 npx hexabot start 

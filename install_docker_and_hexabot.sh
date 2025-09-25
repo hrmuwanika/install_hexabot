@@ -50,31 +50,27 @@ node --version
 
 # Install Hexabot
 cd /opt
-#git clone https://github.com/hexastack/hexabot.git
-npm i -g hexabot-cli
-hexabot create my-chatbot
+git clone https://github.com/Hexastack/Hexabot.git
+cd Hexabot
 
-cd my-chatbot/
 npm install
-
-hexabot init
-hexabot dev --services ollama
+npx hexabot init
+npx hexabot start 
+npx hexabot dev --services ollama
 
 sudo cat <<EOF > /etc/systemd/system/hexabot.service
 
 [Unit]
 Description=Hexabot Docker Container
 Requires=docker.service
-After=network.target docker.service
+After=docker.service
 
 [Service]
-Type=simple
+Type=oneshot
 Restart=always
-RestartSec=10
-WorkingDirectory=/opt/my-chatbot
-ExecStart=/usr/bin/docker start -a hexabot
-ExecStop=/usr/bin/docker stop -t 2 hexabot
-TimeoutStartSec=300
+WorkingDirectory=/opt/Hexabot
+ExecStart=/usr/local/bin/docker-compose -f /opt/hexabot/docker/docker-compose.yml -f /opt/Hexabot/docker/docker-compose.ollama.yml up --build -d --remove-orphans
+ExecStop=/usr/local/bin/docker-compose -f /opt/Hexabot/docker/docker-compose.yml -f /opt/Hexabot/docker/docker-compose.ollama.yml down
 
 [Install]
 WantedBy=multi-user.target

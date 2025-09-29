@@ -7,13 +7,14 @@ sudo apt update && sudo apt upgrade -y
 sudo apt install -y ufw
 sudo ufw allow 22/tcp
 sudo ufw allow 8080/tcp
+sudo ufw allow 3000/tcp
 sudo ufw allow 4000/tcp
 sudo ufw enable
 sudo ufw reload
 
 # Add Docker's official GPG key:
 sudo apt update
-sudo apt install -y ca-certificates curl
+sudo apt install -y apt-transport-https ca-certificates curl git software-properties-common
 sudo install -m 0755 -d /etc/apt/keyrings
 sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
 sudo chmod a+r /etc/apt/keyrings/docker.asc
@@ -46,8 +47,10 @@ docker-compose --version
 # Install NVM 18
 sudo curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
 source ~/.profile
-nvm install 18.17.0
+nvm install 18.20.8
 node --version
+
+sudo npm install -g yarn
 
 # Add your user to the docker group (optional, to run Docker without sudo)
 sudo usermod -aG docker $USER

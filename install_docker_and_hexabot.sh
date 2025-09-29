@@ -11,27 +11,27 @@ sudo ufw allow 4000/tcp
 sudo ufw enable
 sudo ufw reload
 
-# Install dependencies
-sudo apt install -y apt-transport-https ca-certificates git curl software-properties-common
+# Add Docker's official GPG key:
+sudo apt update
+sudo apt install -y ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
 
-# Add Docker GPG key
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+# Add the repository to Apt sources:
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+$(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
-# Add Docker repository
-sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-
-# Update package list again
+# Update the system:
 sudo apt update
 
-# Install Docker
+# Install Docker Community Edition:
 sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 # Start and enable Docker service
 sudo systemctl start docker
 sudo systemctl enable docker
-
-# Add your user to the docker group (optional, to run Docker without sudo)
-sudo usermod -aG docker $USER
 
 # Install Docker Compose (optional)
 sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
@@ -43,11 +43,15 @@ docker --version
 # Test Docker Compose installation
 docker-compose --version
 
-# Install NVM 20
-sudo curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
+# Install NVM 18
+sudo curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
 source ~/.profile
-nvm install 20
+nvm install 18.17.0
 node --version
+
+# Add your user to the docker group (optional, to run Docker without sudo)
+sudo usermod -aG docker $USER
+su - ${USER}
 
 # Install Hexabot
 cd /opt
@@ -60,28 +64,28 @@ hexabot init
 
 hexabot dev --services ollama
 
-sudo cat <<EOF > /etc/systemd/system/hexabot.service
+#sudo cat <<EOF > /etc/systemd/system/hexabot.service
 
-[Unit]
-Description=Hexabot Docker Container
-Requires=docker.service
-After=docker.service
+#[Unit]
+#Description=Hexabot Docker Container
+#Requires=docker.service
+#After=docker.service
 
-[Service]
-Type=simple
+#[Service]
+#Type=simple
 #Restart=always
-WorkingDirectory=/opt/my-chatbot
-ExecStart=/usr/local/bin/docker-compose -f /opt/my-chatbot/docker/docker-compose.yml -f /opt/my-chatbot/docker/docker-compose.ollama.yml up --build -d --remove-orphans
-ExecStop=/usr/local/bin/docker-compose -f /opt/my-chatbot/docker/docker-compose.yml -f /opt/my-chatbot/docker/docker-compose.ollama.yml down
+#WorkingDirectory=/opt/my-chatbot
+#ExecStart=/usr/local/bin/docker-compose -f /opt/my-chatbot/docker/docker-compose.yml -f /opt/my-chatbot/docker/docker-compose.ollama.yml up --build -d --remove-orphans
+#ExecStop=/usr/local/bin/docker-compose -f /opt/my-chatbot/docker/docker-compose.yml -f /opt/my-chatbot/docker/docker-compose.ollama.yml down
 
-[Install]
-WantedBy=multi-user.target
-EOF
+#[Install]
+#WantedBy=multi-user.target
+#EOF
 
-sudo systemctl daemon-reload
-sudo systemctl enable hexabot.service
-sudo systemctl start hexabot.service
-sudo systemctl status hexabot.service
+#sudo systemctl daemon-reload
+#sudo systemctl enable hexabot.service
+#sudo systemctl start hexabot.service
+#sudo systemctl status hexabot.service
 
 
 

@@ -47,10 +47,10 @@ docker-compose --version
 # Install NVM 18
 sudo curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
 source ~/.profile
-nvm install 18.20.8
+nvm install 20
 node --version
 
-sudo npm install -g yarn
+npm install -g yarn
 
 # Add your user to the docker group (optional, to run Docker without sudo)
 sudo usermod -aG docker $USER
@@ -58,9 +58,9 @@ su - ${USER}
 
 # Install Hexabot
 cd /opt
+git clone https://github.com/Hexastack/Hexabot.git
+cd Hexabot
 npm install -g hexabot-cli
-hexabot create my-chatbot
-cd my-chatbot
 
 npm install
 hexabot init

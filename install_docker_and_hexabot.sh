@@ -66,7 +66,7 @@ npm install -g hexabot-cli
 npm install
 npx hexabot init
 
-npx hexabot start --services ollama, nginx
+npx hexabot start --services ollama
 
 #sudo cat <<EOF > /etc/systemd/system/hexabot.service
 
@@ -91,7 +91,64 @@ npx hexabot start --services ollama, nginx
 #sudo systemctl start hexabot.service
 #sudo systemctl status hexabot.service
 
+sudo apt install -y nginx certbot python3-certbot-nginx 
+sudo systemctl enable nginx.service
+sudo systemctl start nginx.service
 
+sudo cat <<EOF > /etc/nginx/sites-available/hexabot.conf
+
+server {
+    listen 80;
+    server_name chat.example.com;                             # You will need to update this to use your own domain 
+    server_tokens off;
+    client_max_body_size 100M;
+
+    location / {
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_set_header X-Url-Scheme /$scheme;
+        proxy_set_header X-Forwarded-For /$proxy_add_x_forwarded_for;
+        proxy_set_header Host /$http_host;
+        proxy_redirect off;
+        proxy_pass http://localhost:8080;                     # Make sure to use the port configured in .env file
+    }
+
+    location /api/ {
+        rewrite ^/api/?(.*)$ /$1 break;
+        proxy_pass http://localhost:4000;                     # Make sure to use the port configured in .env file
+        proxy_http_version 1.1;
+        proxy_set_header X-Forwarded-Host /$host;
+        proxy_set_header X-Forwarded-Server /$host;
+        proxy_set_header X-Real-IP /$remote_addr;
+        proxy_set_header X-Forwarded-For /$proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto /$scheme;
+        proxy_set_header Host /$http_host;
+        proxy_set_header Upgrade /$http_upgrade;
+        proxy_set_header Connection "Upgrade";
+        proxy_set_header X-NginX-Proxy false;
+        proxy_pass_request_headers on;
+    }
+
+    location ~* \.io {
+        rewrite ^/api/?(.*)$ /$1 break;
+        proxy_set_header X-Real-IP /$remote_addr;
+        proxy_set_header X-Forwarded-For /$proxy_add_x_forwarded_for;
+        proxy_set_header Host /$http_host;
+        proxy_set_header X-NginX-Proxy false;
+
+        proxy_pass http://localhost:4000;                               #  Make sure to use the port configured in .env file
+        proxy_redirect off;
+
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade /$http_upgrade;
+        proxy_set_header Connection "upgrade";
+    }
+}
+EOF
+
+sudo ln -s /etc/nginx/sites-available/hexabot.conf /etc/nginx/sites-enabled/
+sudo nginx -t && sudo systemctl reload nginx
+
+sudo certbot --nginx -d chat.example.com
 
 
 

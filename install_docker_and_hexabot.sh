@@ -47,7 +47,7 @@ docker-compose --version
 # Install NVM 18
 sudo curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
 source ~/.profile
-nvm install 20
+nvm install 20.18.1
 node --version
 
 npm install -g yarn

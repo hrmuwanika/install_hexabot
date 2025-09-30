@@ -65,7 +65,7 @@ npm install -g hexabot-cli
 npm install
 npx hexabot init
 
-npx hexabot start --services ollama
+npx hexabot start --services ollama, nginx
 
 #sudo cat <<EOF > /etc/systemd/system/hexabot.service
 

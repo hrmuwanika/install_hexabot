@@ -79,7 +79,7 @@ After=docker.service
 Type=simple
 #Restart=always
 WorkingDirectory=/opt/Hexabot
-ExecStart=/usr/local/bin/docker-compose -f /opt/Hexabot/docker/docker-compose.yml -f /opt/Hexabot/docker/docker-compose.ollama.yml up -d 
+ExecStart=/usr/local/bin/docker-compose -f /opt/Hexabot/docker/docker-compose.yml -f /opt/Hexabot/docker/docker-compose.ollama.yml -f /opt/Hexabot/docker/docker-compose.prod.yml up -d 
 ExecStop=/usr/local/bin/docker-compose -f /opt/Hexabot/docker/docker-compose.yml -f /opt/Hexabot/docker/docker-compose.ollama.yml down
 
 [Install]

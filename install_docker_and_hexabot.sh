@@ -68,28 +68,28 @@ npx hexabot init
 
 npx hexabot start --services ollama
 
-#sudo cat <<EOF > /etc/systemd/system/hexabot.service
+sudo cat <<EOF > /etc/systemd/system/hexabot.service
 
-#[Unit]
-#Description=Hexabot Docker Container
-#Requires=docker.service
-#After=docker.service
+[Unit]
+Description=Hexabot Docker Container
+Requires=docker.service
+After=docker.service
 
-#[Service]
-#Type=simple
+[Service]
+Type=simple
 #Restart=always
-#WorkingDirectory=/opt/my-chatbot
-#ExecStart=/usr/local/bin/docker-compose -f /opt/my-chatbot/docker/docker-compose.yml -f /opt/my-chatbot/docker/docker-compose.ollama.yml up -d 
-#ExecStop=/usr/local/bin/docker-compose -f /opt/my-chatbot/docker/docker-compose.yml -f /opt/my-chatbot/docker/docker-compose.ollama.yml down
+WorkingDirectory=/opt/Hexabot
+ExecStart=/usr/local/bin/docker-compose -f /opt/Hexabot/docker/docker-compose.yml -f /opt/Hexabot/docker/docker-compose.ollama.yml up -d 
+ExecStop=/usr/local/bin/docker-compose -f /opt/Hexabot/docker/docker-compose.yml -f /opt/Hexabot/docker/docker-compose.ollama.yml down
 
-#[Install]
-#WantedBy=multi-user.target
-#EOF
+[Install]
+WantedBy=multi-user.target
+EOF
 
-#sudo systemctl daemon-reload
-#sudo systemctl enable hexabot.service
-#sudo systemctl start hexabot.service
-#sudo systemctl status hexabot.service
+sudo systemctl daemon-reload
+sudo systemctl enable hexabot.service
+sudo systemctl start hexabot.service
+sudo systemctl status hexabot.service
 
 sudo apt install -y nginx certbot python3-certbot-nginx 
 sudo systemctl enable nginx.service

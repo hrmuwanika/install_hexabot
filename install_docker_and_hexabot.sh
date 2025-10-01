@@ -56,6 +56,7 @@ npm install -g yarn
 
 # Add your user to the docker group (optional, to run Docker without sudo)
 sudo usermod -aG docker $USER
+newgrp docker 
 
 # Install Hexabot
 cd /opt

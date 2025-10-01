@@ -63,6 +63,7 @@ git clone https://github.com/Hexastack/Hexabot.git
 cd Hexabot
 npm install -g hexabot-cli
 npm install hexabot-plugin-ollama
+npm install hexabot-helper-ollama
 
 npm install
 npx hexabot init

@@ -5,6 +5,7 @@ sudo apt update && sudo apt upgrade -y
 
 # Install UFW 
 sudo apt install -y ufw
+
 sudo ufw allow 22/tcp
 sudo ufw allow 80/tcp
 sudo ufw allow 443/tcp
@@ -13,6 +14,9 @@ sudo ufw allow 3000/tcp
 sudo ufw allow 4000/tcp
 sudo ufw enable
 sudo ufw reload
+
+# Install python dependencies
+sudo apt install -y python3-dev python3-pip python3-venv
 
 # Add Docker's official GPG key:
 sudo apt update
@@ -155,5 +159,7 @@ sudo nginx -t && sudo systemctl reload nginx
 
 sudo certbot --nginx -d chat.example.com
 
-
+echo "UI Admin Panel is accessible via http://localhost:8080, the default credentials are :"
+echo "Username: admin@admin.admin"
+echo "Password: adminadmin"
 

@@ -87,8 +87,8 @@ After=docker.service
 [Service]
 Type=simple
 #Restart=always
-WorkingDirectory=/home/d-code/my-chatbot
-ExecStart=/usr/local/bin/docker-compose -f /home/d-code/my-chatbot/docker/docker-compose.yml -f /home/d-code/my-chatbot/docker/docker-compose.ollama.yml -f /home/d-code/my-chatbot/docker/docker-compose.prod.yml up -d 
+WorkingDirectory=/home/d-code/my-chatbot/docker
+ExecStart=/usr/local/bin/docker-compose -f /home/d-code/my-chatbot/docker/docker-compose.yml -f /home/d-code/my-chatbot/docker/docker-compose.ollama.yml up -d 
 ExecStop=/usr/local/bin/docker-compose -f /home/d-code/my-chatbot/docker/docker-compose.yml -f /home/d-code/my-chatbot/docker/docker-compose.ollama.yml down
 
 [Install]

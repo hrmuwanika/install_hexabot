@@ -67,7 +67,7 @@ cd /home/d-code/
 npm install -g hexabot-cli
 
 hexabot create my-chatbot
-cd hexabot
+cd my-chatbot
 
 npm install
 npm i --save hexabot-plugin-ollama

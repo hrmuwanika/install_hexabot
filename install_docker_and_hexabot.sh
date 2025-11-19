@@ -10,7 +10,7 @@ sudo ufw allow 22/tcp
 sudo ufw allow 80/tcp
 sudo ufw allow 443/tcp
 sudo ufw allow 8080/tcp
-sudo ufw allow 3000/tcp
+sudo ufw allow 5173/tcp
 sudo ufw allow 4000/tcp
 sudo ufw enable
 sudo ufw reload

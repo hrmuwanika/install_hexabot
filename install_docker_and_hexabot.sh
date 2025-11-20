@@ -7,13 +7,14 @@ sudo apt update && sudo apt upgrade -y
 sudo apt install -y python3-dev python3-pip python3-venv
 
 # Add Docker's official GPG key:
+# Add Docker's official GPG key:
 sudo apt update
-sudo apt install -y apt-transport-https ca-certificates curl git software-properties-common
+sudo apt install -y ca-certificates curl
 sudo install -m 0755 -d /etc/apt/keyrings
 sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
 sudo chmod a+r /etc/apt/keyrings/docker.asc
 
-# Add the repository to Apt sources:
+ # Add the repository to Apt sources:
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
 $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
 sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
@@ -38,12 +39,13 @@ docker --version
 # Test Docker Compose installation
 docker-compose --version
 
-# Install NVM 18
+# Install NVM 20
 sudo curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
 source ~/.profile
 nvm install 20.18.1
 node --version
 
+npm install -g npm@latest
 npm install -g yarn
 
 # Add your user to the docker group (optional, to run Docker without sudo)
@@ -55,18 +57,16 @@ cd /opt
 npm install -g hexabot-cli
 
 hexabot create my-chatbot
-cd my-chatbot
+cd my-chatbot/
 
 npm install
 npm i --save hexabot-plugin-ollama
 npm i --save hexabot-helper-ollama
 
 hexabot init
-
 hexabot start --services ollama
 
-sudo cat << EOF > /etc/systemd/system/hexabot.service
-
+sudo cat <<EOF > /etc/systemd/system/hexabot.service
 [Unit]
 Description=Hexabot Docker Container
 Requires=docker.service

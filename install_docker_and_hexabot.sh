@@ -3,18 +3,6 @@
 # Update package list
 sudo apt update && sudo apt upgrade -y
 
-# Install UFW 
-sudo apt install -y ufw
-
-sudo ufw allow 22/tcp
-sudo ufw allow 80/tcp
-sudo ufw allow 443/tcp
-sudo ufw allow 8080/tcp
-sudo ufw allow 5173/tcp
-sudo ufw allow 4000/tcp
-sudo ufw enable
-sudo ufw reload
-
 # Install python dependencies
 sudo apt install -y python3-dev python3-pip python3-venv
 
@@ -63,7 +51,7 @@ sudo usermod -aG docker $USER
 newgrp docker 
 
 # Install Hexabot
-cd /home/d-code/
+cd /home/root/
 npm install -g hexabot-cli
 
 hexabot create my-chatbot
@@ -73,11 +61,11 @@ npm install
 npm i --save hexabot-plugin-ollama
 npm i --save hexabot-helper-ollama
 
-npx hexabot init
+hexabot init
 
-npx hexabot start --services ollama
+hexabot start --services ollama
 
-sudo cat <<EOF > /etc/systemd/system/hexabot.service
+sudo cat << EOF > /etc/systemd/system/hexabot.service
 
 [Unit]
 Description=Hexabot Docker Container
@@ -87,9 +75,9 @@ After=docker.service
 [Service]
 Type=simple
 #Restart=always
-WorkingDirectory=/home/d-code/my-chatbot/docker
-ExecStart=/usr/local/bin/docker-compose -f /home/d-code/my-chatbot/docker/docker-compose.yml -f /home/d-code/my-chatbot/docker/docker-compose.ollama.yml up -d 
-ExecStop=/usr/local/bin/docker-compose -f /home/d-code/my-chatbot/docker/docker-compose.yml -f /home/d-code/my-chatbot/docker/docker-compose.ollama.yml down
+WorkingDirectory=/home/root/my-chatbot/docker
+ExecStart=/usr/local/bin/docker-compose -f /home/root/my-chatbot/docker/docker-compose.yml -f /home/root/my-chatbot/docker/docker-compose.ollama.yml up -d 
+ExecStop=/usr/local/bin/docker-compose -f /home/root/my-chatbot/docker/docker-compose.yml -f /home/root/my-chatbot/docker/docker-compose.ollama.yml down
 
 [Install]
 WantedBy=multi-user.target
@@ -100,64 +88,6 @@ sudo systemctl enable hexabot.service
 sudo systemctl start hexabot.service
 sudo systemctl status hexabot.service
 
-sudo apt install -y nginx certbot python3-certbot-nginx 
-sudo systemctl enable nginx.service
-sudo systemctl start nginx.service
-
-sudo cat <<EOF > /etc/nginx/sites-available/hexabot.conf
-
-server {
-    listen 80;
-    server_name chat.example.com;                             # You will need to update this to use your own domain 
-    server_tokens off;
-    client_max_body_size 100M;
-
-    location / {
-        proxy_set_header X-Forwarded-Proto https;
-        proxy_set_header X-Url-Scheme /$scheme;
-        proxy_set_header X-Forwarded-For /$proxy_add_x_forwarded_for;
-        proxy_set_header Host /$http_host;
-        proxy_redirect off;
-        proxy_pass http://localhost:8080;                     # Make sure to use the port configured in .env file
-    }
-
-    location /api/ {
-        rewrite ^/api/?(.*)$ /$1 break;
-        proxy_pass http://localhost:4000;                     # Make sure to use the port configured in .env file
-        proxy_http_version 1.1;
-        proxy_set_header X-Forwarded-Host /$host;
-        proxy_set_header X-Forwarded-Server /$host;
-        proxy_set_header X-Real-IP /$remote_addr;
-        proxy_set_header X-Forwarded-For /$proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto /$scheme;
-        proxy_set_header Host /$http_host;
-        proxy_set_header Upgrade /$http_upgrade;
-        proxy_set_header Connection "Upgrade";
-        proxy_set_header X-NginX-Proxy false;
-        proxy_pass_request_headers on;
-    }
-
-    location ~* \.io {
-        rewrite ^/api/?(.*)$ /$1 break;
-        proxy_set_header X-Real-IP /$remote_addr;
-        proxy_set_header X-Forwarded-For /$proxy_add_x_forwarded_for;
-        proxy_set_header Host /$http_host;
-        proxy_set_header X-NginX-Proxy false;
-
-        proxy_pass http://localhost:4000;                               #  Make sure to use the port configured in .env file
-        proxy_redirect off;
-
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade /$http_upgrade;
-        proxy_set_header Connection "upgrade";
-    }
-}
-EOF
-
-sudo ln -s /etc/nginx/sites-available/hexabot.conf /etc/nginx/sites-enabled/
-sudo nginx -t && sudo systemctl reload nginx
-
-sudo certbot --nginx -d chat.example.com
 
 echo "UI Admin Panel is accessible via http://localhost:8080, the default credentials are :"
 echo "Username: admin@admin.admin"

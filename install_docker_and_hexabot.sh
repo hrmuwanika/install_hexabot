@@ -51,7 +51,7 @@ sudo usermod -aG docker $USER
 newgrp docker 
 
 # Install Hexabot
-cd /home/root/
+cd /opt
 npm install -g hexabot-cli
 
 hexabot create my-chatbot
@@ -75,9 +75,9 @@ After=docker.service
 [Service]
 Type=simple
 #Restart=always
-WorkingDirectory=/home/root/my-chatbot/docker
-ExecStart=/usr/local/bin/docker-compose -f /home/root/my-chatbot/docker/docker-compose.yml -f /home/root/my-chatbot/docker/docker-compose.ollama.yml up -d 
-ExecStop=/usr/local/bin/docker-compose -f /home/root/my-chatbot/docker/docker-compose.yml -f /home/root/my-chatbot/docker/docker-compose.ollama.yml down
+WorkingDirectory=/opt/my-chatbot/docker
+ExecStart=/usr/local/bin/docker-compose -f /opt/my-chatbot/docker/docker-compose.yml -f /opt/my-chatbot/docker/docker-compose.ollama.yml up -d --remove-orphans
+ExecStop=/usr/local/bin/docker-compose -f /opt/my-chatbot/docker/docker-compose.yml -f /opt/my-chatbot/docker/docker-compose.ollama.yml down
 
 [Install]
 WantedBy=multi-user.target

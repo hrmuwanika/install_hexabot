@@ -61,13 +61,10 @@ npm install -g npm@latest
 npm install -g yarn
 
 # Install Hexabot
-cd /usr/src
-git clone https://github.com/Hexastack/Hexabot.git
-
-mkdir /opt/my-chatbot
-cp -rf /usr/src/Hexabot/* /opt/my-chatbot
-
+cd /opt
 npm install -g hexabot-cli
+hexabot create my-chatbot
+
 npm install
 npm i --save hexabot-plugin-ollama
 npm i --save hexabot-helper-ollama

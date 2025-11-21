@@ -73,11 +73,12 @@ Requires=docker.service
 After=docker.service
 
 [Service]
-Type=simple
-#Restart=always
+Type=oneshot
+RemainAfterExit=yes
 WorkingDirectory=/opt/my-chatbot/docker
 ExecStart=/usr/local/bin/docker-compose -f /opt/my-chatbot/docker/docker-compose.yml -f /opt/my-chatbot/docker/docker-compose.ollama.yml up -d --remove-orphans
 ExecStop=/usr/local/bin/docker-compose -f /opt/my-chatbot/docker/docker-compose.yml -f /opt/my-chatbot/docker/docker-compose.ollama.yml down
+TimeoutStartSec=0
 
 [Install]
 WantedBy=multi-user.target

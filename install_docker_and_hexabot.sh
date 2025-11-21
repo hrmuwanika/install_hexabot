@@ -60,17 +60,14 @@ node --version
 npm install -g npm@latest
 npm install -g yarn
 
-# Add your user to the docker group (optional, to run Docker without sudo)
-sudo usermod -aG docker $USER
-newgrp docker 
-
 # Install Hexabot
 cd /usr/src
 git clone https://github.com/Hexastack/Hexabot.git
 
 mkdir /opt/my-chatbot
 cp -rf /usr/src/Hexabot/* /opt/my-chatbot
-#npm install -g hexabot-cli
+
+npm install -g hexabot-cli
 npm install
 npm i --save hexabot-plugin-ollama
 npm i --save hexabot-helper-ollama

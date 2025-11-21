@@ -65,12 +65,12 @@ sudo usermod -aG docker $USER
 newgrp docker 
 
 # Install Hexabot
-cd /opt
-npm install -g hexabot-cli
+cd /usr/src
+git clone https://github.com/Hexastack/Hexabot.git
 
-hexabot create my-chatbot
-cd my-chatbot/
-
+mkdir /opt/my-chatbot
+cp -rf /usr/src/Hexabot/* /opt/my-chatbot
+#npm install -g hexabot-cli
 npm install
 npm i --save hexabot-plugin-ollama
 npm i --save hexabot-helper-ollama

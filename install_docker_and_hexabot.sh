@@ -73,9 +73,12 @@ npm i --save hexabot-helper-ollama
 
 hexabot init
 
-rm docker/docker-compose.yml
+cd docker
+rm docker-compose.yml
 wget https://raw.githubusercontent.com/hrmuwanika/install_hexabot/refs/heads/main/docker-compose.yml
 sudo nano docker/.env
+cd ..
+
 hexabot start --services ollama
 
 sudo cat <<EOF > /etc/systemd/system/hexabot.service

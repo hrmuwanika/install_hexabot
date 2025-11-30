@@ -86,7 +86,7 @@ sleep 18
 docker ps -a
 EOF
 
-chmod +x /usr/local/bin/hexastart.sh
+sudo chmod +x /usr/local/bin/hexastart.sh
 
 sudo cat <<EOF > /etc/systemd/system/hexabot.service
 [Unit]

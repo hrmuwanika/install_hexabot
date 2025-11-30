@@ -11,6 +11,7 @@ sudo ufw allow 80/tcp
 sudo ufw allow 443/tcp
 sudo ufw allow 8080/tcp
 sudo ufw allow 5173/tcp
+sudo ufw allow 3000/tcp
 sudo ufw allow 4000/tcp
 sudo ufw enable
 sudo ufw reload
@@ -64,6 +65,7 @@ npm install -g yarn
 cd /opt
 npm install -g hexabot-cli
 hexabot create my-chatbot
+cd my-chatbot
 
 npm install
 npm i --save hexabot-plugin-ollama
@@ -73,7 +75,7 @@ hexabot init
 
 rm docker/docker-compose.yml
 wget https://raw.githubusercontent.com/hrmuwanika/install_hexabot/refs/heads/main/docker-compose.yml
-nano docker/.env
+sudo nano docker/.env
 hexabot start --services ollama
 
 sudo cat <<EOF > /etc/systemd/system/hexabot.service
@@ -86,7 +88,7 @@ After=docker.service
 Type=oneshot
 RemainAfterExit=yes
 WorkingDirectory=/opt/my-chatbot/docker
-ExecStart=/usr/local/bin/docker-compose -f /opt/my-chatbot/docker/docker-compose.yml -f /opt/my-chatbot/docker/docker-compose.ollama.yml up -d --remove-orphans
+ExecStart=/usr/local/bin/docker-compose -f /opt/my-chatbot/docker/docker-compose.yml -f /opt/my-chatbot/docker/docker-compose.ollama.yml up -d 
 ExecStop=/usr/local/bin/docker-compose -f /opt/my-chatbot/docker/docker-compose.yml -f /opt/my-chatbot/docker/docker-compose.ollama.yml down
 TimeoutStartSec=0
 

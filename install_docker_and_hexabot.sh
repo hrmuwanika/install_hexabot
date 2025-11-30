@@ -75,19 +75,31 @@ hexabot init
 sudo nano docker/.env
 hexabot start --services ollama
 
+sudo cat <<EOF > /usr/local/bin/hexastart.sh
+#!/bin/bash
+
+cd /opt/my-chatbot
+hexabot start --services ollama
+
+sleep 18
+
+docker ps -a
+EOF
+
+chmod +x /usr/local/bin/hexastart.sh
+
 sudo cat <<EOF > /etc/systemd/system/hexabot.service
 [Unit]
-Description=Hexabot Docker Container
-Requires=docker.service
-After=docker.service
+Description=My Hexabot Chatbot
+After=network.target
 
 [Service]
-Type=oneshot
-RemainAfterExit=yes
-WorkingDirectory=/opt/my-chatbot/docker
-ExecStart=/usr/local/bin/docker-compose -f /opt/my-chatbot/docker/docker-compose.yml -f /opt/my-chatbot/docker/docker-compose.ollama.yml up -d 
-ExecStop=/usr/local/bin/docker-compose -f /opt/my-chatbot/docker/docker-compose.yml -f /opt/my-chatbot/docker/docker-compose.ollama.yml down
-TimeoutStartSec=0
+Type=simple
+User=root
+Group=root
+# The full path to your script
+ExecStart=/usr/local/bin/hexastart.sh
+Restart=on-failure
 
 [Install]
 WantedBy=multi-user.target

@@ -79,6 +79,8 @@ sudo cat <<EOF > /usr/local/bin/hexastart.sh
 #!/bin/bash
 
 cd /opt/my-chatbot
+
+hexabot stop --services ollama
 hexabot start --services ollama
 
 sleep 18
@@ -96,10 +98,9 @@ After=network.target
 [Service]
 Type=simple
 User=root
-Group=root
-# The full path to your script
 ExecStart=/usr/local/bin/hexastart.sh
-Restart=on-failure
+Restart=always
+WorkingDirectory=/opt/my-chatbot/
 
 [Install]
 WantedBy=multi-user.target
